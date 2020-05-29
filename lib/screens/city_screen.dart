@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'loading_screen.dart';
 
 class CityScreen extends StatefulWidget {
   @override
@@ -7,9 +9,11 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+  String cityName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -24,7 +28,12 @@ class _CityScreenState extends State<CityScreen> {
               Align(
                 alignment: Alignment.topLeft,
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return LoadingScreen();
+                    }));
+                  },
                   child: Icon(
                     Icons.arrow_back_ios,
                     size: 50.0,
@@ -33,15 +42,33 @@ class _CityScreenState extends State<CityScreen> {
               ),
               Container(
                 padding: EdgeInsets.all(20.0),
-                child: null,
+                child: TextField(
+                  style: TextStyle(
+                    color: Colors.black
+                  ),
+                  autocorrect: true,
+                  decoration: kTextFieldInputDecoration,
+                  onChanged: (value){
+                    cityName = value;
+                  },
+                ),
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context, cityName);
+                },
                 child: Text(
                   'Get Weather',
                   style: kButtonTextStyle,
                 ),
               ),
+              SizedBox(height: 80.0),
+              Text('Made with ', style: kButtonTextStyle,),
+              SpinKitPumpingHeart(
+                color: Colors.red[100],
+                size: 200.0,
+              ),
+              Text('By soloski', style: kButtonTextStyle,)
             ],
           ),
         ),
